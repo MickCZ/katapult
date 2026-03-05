@@ -82,7 +82,7 @@ choice
         bool "STM32H743"
         select MACH_STM32H7
     config MACH_STM32H750
-        bool "STM32H750" if 0
+        bool "STM32H750"
         select MACH_STM32H7
     config MACH_STM32L412
         bool "STM32L412" if 0
@@ -163,7 +163,8 @@ config CLOCK_FREQ
     default 180000000 if MACH_STM32F446
     default 64000000 if MACH_STM32G0
     default 150000000 if MACH_STM32G431
-    default 400000000 if MACH_STM32H7 # 400Mhz is max Klipper currently supports
+    default 400000000 if MACH_STM32H7 && !MACH_STM32H750
+    default 480000000 if MACH_STM32H750
     default 80000000 if MACH_STM32L412
 
 config FLASH_SIZE
@@ -241,7 +242,7 @@ choice
     config STM32_FLASH_START_7000
         bool "28KiB bootloader" if MACH_STM32F103
     config STM32_FLASH_START_8000
-        bool "32KiB bootloader" if MACH_STM32F1 || MACH_STM32F2 || MACH_STM32F4
+        bool "32KiB bootloader" if MACH_STM32F1 || MACH_STM32F2 || MACH_STM32F4 || MACH_STM32H750
     config STM32_FLASH_START_8800
         bool "34KiB bootloader (Chitu v6 Bootloader)" if MACH_STM32F103
     config STM32_FLASH_START_20200
@@ -250,7 +251,6 @@ choice
         bool "48KiB bootloader (MKS Robin Nano V3)" if MACH_STM32F4x5
     config STM32_FLASH_START_10000
         bool "64KiB bootloader" if MACH_STM32F103 || MACH_STM32F446 || MACH_STM32F401
-
     config STM32_FLASH_START_800
         bool "2KiB bootloader (HID Bootloader)" if MACH_STM32F103
     config STM32_FLASH_START_1000
@@ -495,9 +495,9 @@ config FLASH_START
 choice
     prompt "Application start offset"
     config STM32_APP_START_20000
-        bool "128KiB offset" if MACH_STM32H7
+        bool "128KiB offset" if MACH_STM32H7 && !MACH_STM32H750
     config STM32_APP_START_8000
-        bool "32KiB offset" if MACH_STM32F2 || MACH_STM32F4
+        bool "32KiB offset" if MACH_STM32F2 || MACH_STM32F4 || MACH_STM32H750
     config STM32_APP_START_4000
         bool "16KiB offset" if MACH_STM32F2 || MACH_STM32F4
     config STM32_APP_START_2000
